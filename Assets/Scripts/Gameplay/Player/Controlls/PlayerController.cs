@@ -32,7 +32,6 @@ namespace Gameplay.Player.Controlls
         void OnStartMovePlayer(Vector2 startTouchPosition)
         {
             _startTouchPosition = startTouchPosition;
-            Debug.Log($"Start touch position: {_startTouchPosition}");
             StartCoroutine(UnlockTouchMovement());
         }
 
