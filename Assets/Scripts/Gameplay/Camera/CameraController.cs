@@ -1,5 +1,5 @@
 ﻿using Gameplay.Player.Controlls;
-using General;
+using General.Enums;
 using UnityEngine;
 
 namespace Gameplay.Camera
@@ -19,11 +19,11 @@ namespace Gameplay.Camera
         
         void Zoom(Zoom zoom, float zoomedDistance)
         {
-            if (zoom == General.Zoom.In)
+            if (zoom == General.Enums.Zoom.In)
             {
                 cam.fieldOfView -= zoomedDistance * zoomSpeed;
             }
-            else if (zoom == General.Zoom.Out)
+            else if (zoom == General.Enums.Zoom.Out)
             {
                 cam.fieldOfView += zoomedDistance * zoomSpeed;
             }

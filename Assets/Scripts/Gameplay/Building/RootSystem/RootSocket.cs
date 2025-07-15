@@ -1,4 +1,6 @@
 ﻿using System;
+using General.Base;
+using General.Enums;
 using General.Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,12 +11,16 @@ namespace Gameplay.Building.RootSystem
     public class RootSocket : MonoBehaviour, ITappable
     {
         [SerializeField] private bool isOccupied = false;
+        [SerializeField] private bool isLocked = false;
         [SerializeField] private GameObject builtBuilding;
+        [SerializeField] private BuildableType placeableTypes;
 
         private TreeRoot _owningTreeRoot;
         
         public event Action<RootSocket> OnSocketClicked;
         public bool IsOccupied => isOccupied;
+        public bool IsLocked => isLocked;
+        public BuildableType PlaceableTypes => placeableTypes;
 
         public void InitSocket(TreeRoot owningTreeRoot)
         {
@@ -34,7 +40,7 @@ namespace Gameplay.Building.RootSystem
 
         public void OnTapped()
         {
-            Debug.Log("OnTapped");
+            EventBus.Instance.SendRootSocketTapped(this);
             OnSocketClicked?.Invoke(this);
         }
     }

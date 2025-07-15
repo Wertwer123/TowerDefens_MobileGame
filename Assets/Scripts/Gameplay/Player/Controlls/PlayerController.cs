@@ -16,8 +16,6 @@ namespace Gameplay.Player.Controlls
         private Vector2 _startTouchPosition;
         private Vector3 _movementVector;
         
-        bool touchMovement = false;
-        
         void Start()
         {
             SetupInput();
@@ -32,15 +30,8 @@ namespace Gameplay.Player.Controlls
         void OnStartMovePlayer(Vector2 startTouchPosition)
         {
             _startTouchPosition = startTouchPosition;
-            StartCoroutine(UnlockTouchMovement());
         }
-
-        IEnumerator UnlockTouchMovement()
-        {
-            touchMovement = false;
-            yield return new WaitForSeconds(1.01f);
-            touchMovement = true;
-        }
+        
         void MovePlayer(Vector2 currentTouchPosition)
         {
             if (touchController.ActiveTouches != 1)

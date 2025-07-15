@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using General;
+using General.Enums;
 using General.Interfaces;
 using Unity.Mathematics;
 using UnityEngine;

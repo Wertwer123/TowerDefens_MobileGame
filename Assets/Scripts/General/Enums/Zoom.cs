@@ -1,4 +1,4 @@
-﻿namespace General
+﻿namespace General.Enums
 {
     public enum Zoom
     {
