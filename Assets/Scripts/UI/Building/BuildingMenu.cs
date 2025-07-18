@@ -15,18 +15,22 @@ namespace UI.Building
       [SerializeField] private Button openButton;
       [SerializeField] private GridLayoutGroup buildingGridLayoutGroup;
       [SerializeField] private BuildingDataBase dataBase;
-      [SerializeField] private GameObject buildingDisplayPrefab;
+      [SerializeField] private BuildingButton buildingDisplayPrefab;
 
       [Header("Animation")] 
       [SerializeField] private UITween tween;
 
-      private RootSocket _selectedRootSocket;
+      [SerializeField]private RootSocket _selectedRootSocket;
       
       public void Start()
       {
          openButton.onClick.AddListener(Open);
          EventBus.Instance.OnRootSocketTapped += (tappedRootSocket) =>
          {
+            if (tappedRootSocket.IsOccupied)
+            {
+               return;
+            }
             if (_selectedRootSocket == tappedRootSocket)
             {
                Close();
@@ -37,6 +41,10 @@ namespace UI.Building
             Open();
             InitializeBuildings(tappedRootSocket);
             _selectedRootSocket = tappedRootSocket;
+         };
+         EventBus.Instance.OnBuildingPlacedOnSocket += (_) =>
+         {
+            Close();
          };
       }
 
@@ -49,6 +57,7 @@ namespace UI.Building
          foreach (var buildingData in dataBase.GetBuildingsFilteredByType(tappedRootSocket.PlaceableTypes))
          {
             var instance = Instantiate(buildingDisplayPrefab, buildingGridLayoutGroup.transform);
+            instance.Initialize(buildingData, tappedRootSocket);
          }
       }
 

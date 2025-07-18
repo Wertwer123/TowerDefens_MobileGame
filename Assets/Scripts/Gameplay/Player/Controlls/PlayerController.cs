@@ -1,8 +1,5 @@
-using System.Collections;
-using Player.Controlls;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Gameplay.Player.Controlls
 {
@@ -42,6 +39,7 @@ namespace Gameplay.Player.Controlls
             {
                 Vector2 direction = (touchPosition - _startTouchPosition).normalized;
                 _movementVector = new Vector3(direction.x, 0, direction.y) * (speed * Time.deltaTime);
+                _movementVector = transform.TransformDirection(_movementVector);
                 transform.Translate(_movementVector, Space.World);
             }
             else

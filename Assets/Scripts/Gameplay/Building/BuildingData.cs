@@ -1,6 +1,5 @@
 ﻿using General.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Gameplay.Building
 {
@@ -8,10 +7,12 @@ namespace Gameplay.Building
     public  class BuildingData : ScriptableObject
     {
         [SerializeField] protected Sprite uiSprite;
+        [SerializeField] protected GameObject buildingPrefab;
         [SerializeField] private string buildingName;
         [SerializeField] private BuildableType buildingType;
         
         public Sprite UISprite => uiSprite;
+        public GameObject BuildingPrefab => buildingPrefab;
         public string BuildingName => buildingName;
         public BuildableType BuildingType => buildingType;
         

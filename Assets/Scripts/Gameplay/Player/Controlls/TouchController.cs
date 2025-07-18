@@ -77,7 +77,6 @@ namespace Gameplay.Player.Controlls
             }
             if (hit.transform.gameObject.TryGetComponent(out ITappable tappedObject))
             {
-                Debug.Log("Tapped");
                 tappedObject.OnTapped();
             }
         }

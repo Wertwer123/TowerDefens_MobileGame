@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Net.Sockets;
 using General.Base;
 using General.Enums;
 using General.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Gameplay.Building.RootSystem
 {
@@ -11,26 +11,38 @@ namespace Gameplay.Building.RootSystem
     public class RootSocket : MonoBehaviour, ITappable
     {
         [SerializeField] private bool isOccupied = false;
-        [SerializeField] private bool isLocked = false;
-        [SerializeField] private GameObject builtBuilding;
+        [SerializeField] private Transform socketTransform;
+        [SerializeField] private SocketLocation socketLocation;
         [SerializeField] private BuildableType placeableTypes;
-
+        [SerializeField] private MeshCollider rootSocketCollider;
+        
+        private IBuilding _buildingInstance;
         private TreeRoot _owningTreeRoot;
         
-        public event Action<RootSocket> OnSocketClicked;
         public bool IsOccupied => isOccupied;
-        public bool IsLocked => isLocked;
         public BuildableType PlaceableTypes => placeableTypes;
+        public SocketLocation SocketLocation => socketLocation;
+        public Collider RootSocketCollider => rootSocketCollider;
+        public Transform SocketTransform => socketTransform;
 
         public void InitSocket(TreeRoot owningTreeRoot)
         {
             _owningTreeRoot = owningTreeRoot;
         }
-        
-        //WIll be exchanged by the actual building
-        public void OccupySocket(GameObject newlyBuiltBuilding)
+
+        public void DisableSocket()
         {
-                this.builtBuilding = newlyBuiltBuilding;
+            gameObject.SetActive(false);
+        }
+        //WIll be exchanged by the actual building
+        public void OccupySocket(IBuilding newlyBuiltBuilding)
+        {
+            _buildingInstance = newlyBuiltBuilding;
+            _buildingInstance.OnBuilt(socketLocation);
+            isOccupied = true;
+            
+            EventBus.Instance.SendBuildingPlacedOnSocket(this);
+            DisableSocket();
         }
         
         public GameObject GetTappedObject()
@@ -41,7 +53,6 @@ namespace Gameplay.Building.RootSystem
         public void OnTapped()
         {
             EventBus.Instance.SendRootSocketTapped(this);
-            OnSocketClicked?.Invoke(this);
         }
     }
 }

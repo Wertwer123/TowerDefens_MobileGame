@@ -10,10 +10,16 @@ namespace General.Base
     public class EventBus : Singleton<EventBus>
     {
         public event Action<RootSocket> OnRootSocketTapped;
+        public event Action<RootSocket> OnBuildingPlacedOnSocket;
 
         public void SendRootSocketTapped(RootSocket socket)
         {
             OnRootSocketTapped?.Invoke(socket);
+        }
+
+        public void SendBuildingPlacedOnSocket(RootSocket socket)
+        {
+            OnBuildingPlacedOnSocket?.Invoke(socket);
         }
     }
 }
